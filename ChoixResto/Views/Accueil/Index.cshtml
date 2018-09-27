@@ -1,0 +1,34 @@
+﻿@model ChoixResto.ViewModels.AccueilViewModel
+@{
+    Layout = null;
+}
+
+<style type="text/css">
+    table {
+        border-collapse: collapse;
+    }
+
+    td, th {
+        border: 1px solid black;
+    }
+</style>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        Je suis la vue index
+        <input type="text" id="nom" value="@Model.Restos.Nom" />
+        <input type="text" id="Telephone" value="@Model.Restos.Telephone" />
+        <input type="submit" id="Envoyer" />
+
+
+    </div>
+</body>
+</html>
