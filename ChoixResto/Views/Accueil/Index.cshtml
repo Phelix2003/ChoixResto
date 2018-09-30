@@ -24,10 +24,8 @@
 <body>
     <div>
         Je suis la vue index
-        <input type="text" id="nom" value="@Model.Restos.Nom" />
-        <input type="text" id="Telephone" value="@Model.Restos.Telephone" />
-        <input type="submit" id="Envoyer" />
-
+        <li>@Model.Message</li>
+        <li>@Html.Raw(Model.Message)</li>
 
     </div>
 </body>

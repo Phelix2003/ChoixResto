@@ -14,6 +14,7 @@ namespace ChoixResto.Models
         public int Id { get; set; }
         [Required]
         public string Nom { get; set; }
+        [Display(Name = "Téléphone")]
         public string Telephone { get; set; }
     }
 }
