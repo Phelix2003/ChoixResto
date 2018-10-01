@@ -100,12 +100,14 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccueilController.cs" />
+    <Compile Include="Controllers\RestaurantController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BddContext.cs" />
     <Compile Include="Models\Dal.cs" />
     <Compile Include="Models\IDal.cs" />
+    <Compile Include="Models\InitChoixResto.cs" />
     <Compile Include="Models\Resto.cs" />
     <Compile Include="Models\Resultats.cs" />
     <Compile Include="Models\Sondage.cs" />
@@ -120,6 +122,7 @@
     <Content Include="Views\Accueil\Index.cshtml" />
     <Content Include="Views\Accueil\Connexion.cshtml" />
     <Content Include="Views\Accueil\AfficheListeRestaurants.cshtml" />
+    <Content Include="Views\Restaurant\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
