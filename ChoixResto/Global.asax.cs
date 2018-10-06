@@ -17,9 +17,9 @@ namespace ChoixResto
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             //réinitialisation de la base de donnée dans un état connus.
-            IDatabaseInitializer<BddContext> init = new InitChoixResto();
-            Database.SetInitializer(init);
-            init.InitializeDatabase(new BddContext());
+            //IDatabaseInitializer<BddContext> init = new InitChoixResto();
+            //Database.SetInitializer(init);
+            //init.InitializeDatabase(new BddContext());
 
         }
     }

@@ -103,7 +103,6 @@ namespace ChoixResto.Tests
             return sondage.Votes.Any(v => v.Utilisateur.Id == utilisateur.Id);
         }
 
-        
         public List<Resultats> ObtenirLesResultats(int idSondage)
         {
             List<Resto> restaurants = ObtientTousLesRestaurants();
@@ -118,7 +117,6 @@ namespace ChoixResto.Tests
             }
             return resultats;
         }
-        
 
         public void Dispose()
         {
