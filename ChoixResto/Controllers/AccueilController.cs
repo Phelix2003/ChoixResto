@@ -15,5 +15,6 @@ namespace ChoixResto.Controllers
         {
             return View();
         }
+
     }
 }

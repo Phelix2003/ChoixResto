@@ -1,8 +1,13 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ChoixResto.Models;
+using ChoixResto.Controllers;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Web.Mvc;
+
+
+
 
 namespace ChoixResto.Tests
 {
@@ -30,20 +35,20 @@ namespace ChoixResto.Tests
         [TestMethod]
         public void CreerRestaurant_AvecUnNouveauRestaurant_ObtientTousLesRestaurantsRenvoitBienLeRestaurant()
         {           
-            dal.CreerRestaurant("La bonne fourchette", "01 02 03 04 05");
+            dal.CreerRestaurant("La bonne fourchette", "0102030405");
             List<Resto> restos = dal.ObtientTousLesRestaurants();
 
             Assert.IsNotNull(restos);
             Assert.AreEqual(1, restos.Count);
             Assert.AreEqual("La bonne fourchette", restos[0].Nom);
-            Assert.AreEqual("01 02 03 04 05", restos[0].Telephone);
+            Assert.AreEqual("0102030405", restos[0].Telephone);
         }
 
 
         [TestMethod]
         public void ModifierRestaurant_CreationDUnNouveauRestaurantEtChangementNomEtTelephone_LaModificationEstCorrecteApresRechargement()
         {
-            dal.CreerRestaurant("La bonne fourchette", "01 02 03 04 05");
+            dal.CreerRestaurant("La bonne fourchette", "0102030405");
             List<Resto> restos = dal.ObtientTousLesRestaurants();
             int id = restos.Find(r => r.Nom == "La bonne fourchette").Id;
 
@@ -255,7 +260,68 @@ namespace ChoixResto.Tests
             Assert.AreEqual("Resto pinière", resultats2[2].Nom);
             Assert.AreEqual("0102030405", resultats2[2].Telephone);
         }
+
+        [TestMethod]
+        public void RestaurantController_Index_LeControleurEstOk()
+        {
+            using (IDal dal = new DalEnDur())
+            {
+                RestaurantController controller = new RestaurantController(dal);
+
+                ViewResult resultat = (ViewResult)controller.Index();
+
+                List<Resto> modele = (List<Resto>)resultat.Model;
+                Assert.AreEqual("Resto pinambour", modele[0].Nom);
+            }
+        }
+
+        [TestMethod]
+        public void RestaurantController_ModifierRestaurantAvecRestoINvalide_RenvoiVueParDefaut()
+        {
+            using (IDal dal = new DalEnDur())
+            {
+                RestaurantController controller = new RestaurantController(dal);
+                controller.ModelState.AddModelError("Nom", "Le nom du restaurant doit être saisi");
+
+                ViewResult resultat = (ViewResult)controller.ModifierRestaurant(new Resto { Id = 1, Nom = null, Telephone = "0102030405" });
+
+                Assert.AreEqual(string.Empty, resultat.ViewName);
+                Assert.IsFalse(resultat.ViewData.ModelState.IsValid);
+            }
+
+        }
+
+        [TestMethod]
+        public void RestaurantController_ModifierRestaurantAvecRestoINvalideETBindingDEModele_RenvoiVueParDEfaut()
+        {
+            RestaurantController controller = new RestaurantController(new DalEnDur());
+            Resto resto = new Resto { Id = 1, Nom = null, Telephone = "0102030405" };
+            controller.ValideLeModele(resto);
+
+            ViewResult resultat = (ViewResult)controller.ModifierRestaurant(resto);
+
+            Assert.AreEqual(string.Empty, resultat.ViewName);
+            Assert.IsFalse(resultat.ViewData.ModelState.IsValid);
+        }
+
+        /*
+        [TestMethod]
+        public void RestaurantController_ModifierRestaurantAvecRestoValide_CreerRestaurantEtRenvoiVueIndex()
+        {
+            RestaurantController controller = new RestaurantController(dal);
+            Resto resto = new Resto { Id = 1, Nom = "Resto mate", Telephone = "0102030405" };
+            controller.ValideLeModele(resto);
+
+            RedirectToRouteResult resultat = (RedirectToRouteResult)controller.ModifierRestaurant(resto);
+
+            Assert.AreEqual("Index", resultat.RouteValues["action"]);
+            List<Resto> restoTrouve = dal.ObtientTousLesRestaurants().First();
+            Assert.AreEqual("Resto mate", restoTrouve[0].Nom);
+
+        }
+        */
     }
+
 
 }
 
